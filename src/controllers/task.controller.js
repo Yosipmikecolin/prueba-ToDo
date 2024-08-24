@@ -28,7 +28,7 @@ export const controllerPOST = (req, res) => {
     return res.status(400).json({ error: "Title are required" });
   }
 
-  // * READ THE FILE tasks.json
+  // * LEER EL ARCHIVO tasks.json
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       console.error(err);
@@ -43,23 +43,23 @@ export const controllerPOST = (req, res) => {
       return res.status(500).send("Error parsing JSON");
     }
 
-    // * CREATE A NEW TASK
+    // * CREAR LA NUEVA TAREA
     const newTask = {
       id: tasks.length ? tasks[tasks.length - 1].id + 1 : 1,
       title,
     };
 
-    // * ADD THE NEW TASK TO THE TASK ARRAY
+    // * AGREGAR LA NUEVA TAREA AL ARRAY DE LAS TAREAS
     tasks.push(newTask);
 
-    // * WRITE UPDATED TASKS TO THE FILE
+    // * ESCRIBIR LAS TAREAS ACTUALIZADAS EN EL ARCHIVO
     fs.writeFile(filePath, JSON.stringify(tasks, null, 2), (writeErr) => {
       if (writeErr) {
         console.error(writeErr);
         return res.status(500).send("Error writing file");
       }
 
-      // * SEND SUCCESS RESPONSE
+      // * ENVIAR RESPUESTA DE ÉXITO
       res.status(201).json(newTask);
     });
   });
@@ -109,7 +109,7 @@ export const controllerPUT = (req, res) => {
         return res.status(500).send("Error writing file");
       }
 
-      // * ENVIAR RESPUESTA CON EXITO
+      // * ENVIAR RESPUESTA CON ÉXITO
       res.status(200).json(tasks[taskIndex]);
     });
   });
