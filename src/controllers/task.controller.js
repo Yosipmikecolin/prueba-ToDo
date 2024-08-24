@@ -2,11 +2,11 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-export const controllerGET = (_req, res) => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-  const filePath = path.join(__dirname, "../database/tasks.json");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const filePath = path.join(__dirname, "../database/tasks.json");
 
+export const controllerGET = (_req, res) => {
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       console.error(err);
@@ -22,9 +22,6 @@ export const controllerGET = (_req, res) => {
 };
 
 export const controllerPOST = (req, res) => {
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
-  const filePath = path.join(__dirname, "../database/tasks.json");
   const { title } = req.body;
 
   if (!title) {
