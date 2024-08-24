@@ -114,3 +114,44 @@ export const controllerPUT = (req, res) => {
     });
   });
 };
+
+export const controllerDELETE = (req, res) => {
+  const { id } = req.params;
+
+  // * LEER EL ARCHIVO tasks.json
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error reading file");
+    }
+
+    let tasks;
+    try {
+      tasks = JSON.parse(data);
+    } catch (parseErr) {
+      console.error(parseErr);
+      return res.status(500).send("Error parsing JSON");
+    }
+
+    // * BUSCAR EL INDICE DE LA TAREA CON EL ID QUE LLEGA POR PARAMETRO
+    const taskIndex = tasks.findIndex((task) => task.id === parseInt(id, 10));
+
+    if (taskIndex === -1) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+
+    // * ELIMINAR LA TAREA DEL ARRAY
+    tasks.splice(taskIndex, 1);
+
+    // * ESCRIV¿BIR EL ARCHIVO CON LAS TAREAS ACTUALIZADAS
+    fs.writeFile(filePath, JSON.stringify(tasks, null, 2), (writeErr) => {
+      if (writeErr) {
+        console.error(writeErr);
+        return res.status(500).send("Error writing file");
+      }
+
+      // * ENVIAR RESPUESTA CON ÉXITO
+      res.status(204).send();
+    });
+  });
+};
