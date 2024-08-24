@@ -64,3 +64,53 @@ export const controllerPOST = (req, res) => {
     });
   });
 };
+
+export const controllerPUT = (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+
+  if (!title) {
+    return res
+      .status(400)
+      .json({ error: "At least one of title or message is required" });
+  }
+
+  // * LEER EL ARCHIVO tasks.json
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error reading file");
+    }
+
+    let tasks;
+    try {
+      tasks = JSON.parse(data);
+    } catch (parseErr) {
+      console.error(parseErr);
+      return res.status(500).send("Error parsing JSON");
+    }
+
+    // * BUSCAR LA TAREA CON EL ID ESPECIFCADO
+    const taskIndex = tasks.findIndex((task) => task.id === parseInt(id, 10));
+
+    if (taskIndex === -1) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+
+    // * ACTUALIZAR LA TAREA
+    if (title) {
+      tasks[taskIndex].title = title;
+    }
+
+    // * ESCRIBIR EL ARCHIVO CON LA TAREA ACTUALIZADA
+    fs.writeFile(filePath, JSON.stringify(tasks, null, 2), (writeErr) => {
+      if (writeErr) {
+        console.error(writeErr);
+        return res.status(500).send("Error writing file");
+      }
+
+      // * ENVIAR RESPUESTA CON EXITO
+      res.status(200).json(tasks[taskIndex]);
+    });
+  });
+};
