@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import routeTask from "./routes/task.route.js";
 const app = express();
-import "dotenv/config";
 
 //VARS
 app.set("port", process.env.PORT || 4000);
