@@ -35,7 +35,7 @@
 
 ## Video de funcionamiento 📹
 
-Video del funcionamiento completo de la aplicación de usuarios
+Video del funcionamiento completo de la API ToDo
 
 [https://drive.google.com/file/d/1FmJPIwwJSAR5LGHnxlD7EYF1vCGi3J4v/view?usp=sharing](https://drive.google.com/file/d/1FmJPIwwJSAR5LGHnxlD7EYF1vCGi3J4v/view?usp=sharing)
 
